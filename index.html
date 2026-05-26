@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>P2P Poker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Lobby -->
+  <div id="lobby">
+    <div class="lobby-box">
+      <h1>♠ P2P Poker ♥</h1>
+      <p class="subtitle">Texas Hold'em — PeerJS P2P</p>
+      <div class="input-group">
+        <label>あなたの名前</label>
+        <input id="playerName" type="text" placeholder="プレイヤー名" maxlength="16">
+      </div>
+      <hr>
+      <button id="hostBtn" class="btn btn-primary">ルームを作成（ホスト）</button>
+      <hr>
+      <div class="input-group">
+        <label>ルームID</label>
+        <input id="roomIdInput" type="text" placeholder="ホストのRoom IDを入力" maxlength="40">
+      </div>
+      <button id="joinBtn" class="btn btn-secondary">参加する</button>
+      <div id="lobbyStatus" class="status-msg"></div>
+    </div>
+  </div>
+
+  <!-- Room (waiting) -->
+  <div id="roomScreen" class="hidden">
+    <div class="room-box">
+      <h2>ロビー</h2>
+      <div id="roomIdDisplay" class="room-id-display"></div>
+      <p class="hint">このIDを他のプレイヤーに共有してください</p>
+      <div id="playerList" class="player-list"></div>
+      <button id="startBtn" class="btn btn-primary hidden">ゲーム開始</button>
+      <div id="roomStatus" class="status-msg"></div>
+    </div>
+  </div>
+
+  <!-- Game -->
+  <div id="gameScreen" class="hidden">
+    <div id="gameTable">
+      <!-- Opponents -->
+      <div id="opponents"></div>
+
+      <!-- Community cards + pot -->
+      <div id="center">
+        <div id="communityCards" class="card-area"></div>
+        <div id="potDisplay" class="pot">Pot: 0</div>
+        <div id="phaseDisplay" class="phase"></div>
+      </div>
+
+      <!-- My area -->
+      <div id="myArea">
+        <div id="myInfo" class="my-info"></div>
+        <div id="myCards" class="card-area my-cards"></div>
+        <div id="actionArea" class="action-area hidden">
+          <div id="callLabel" class="call-label"></div>
+          <button id="btnFold" class="btn btn-danger">フォールド</button>
+          <button id="btnCall" class="btn btn-secondary">コール</button>
+          <button id="btnCheck" class="btn btn-secondary">チェック</button>
+          <div class="raise-group">
+            <input id="raiseAmount" type="number" min="1">
+            <button id="btnRaise" class="btn btn-primary">レイズ</button>
+          </div>
+        </div>
+        <div id="waitMsg" class="wait-msg"></div>
+      </div>
+    </div>
+
+    <!-- Log -->
+    <div id="gameLog"></div>
+
+    <!-- Result overlay -->
+    <div id="resultOverlay" class="hidden">
+      <div class="result-box">
+        <h2 id="resultTitle"></h2>
+        <div id="resultDetails"></div>
+        <button id="nextHandBtn" class="btn btn-primary hidden">次のハンド</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
