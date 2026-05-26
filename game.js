@@ -139,6 +139,7 @@ function newState(players) {
     currentIdx: 0,
     currentBet: 0,
     lastRaiser: -1,
+    firstToActIdx: 0,
     handNum: 0,
   };
 }
@@ -269,11 +270,12 @@ function startHand() {
   placeBet(sb, SMALL_BLIND);
   placeBet(bb, BIG_BLIND);
   state.currentBet = BIG_BLIND;
-  state.lastRaiser = bb.seatIndex;
+  state.lastRaiser = -1;
 
   // first to act: after BB (or SB in heads-up)
   const firstPos = (bbPos+1)%n;
   state.currentIdx = activePlayers[firstPos].seatIndex;
+  state.firstToActIdx = state.currentIdx;
 
   broadcastState(`ハンド #${state.handNum} 開始`);
   log(`[Host] ハンド #${state.handNum} 開始`);
@@ -362,9 +364,14 @@ function advanceTurn() {
     }
   }
 
-  // Check if betting round is over
+  // Check if betting round is over:
+  // - with a bet/raise: done when everyone has called and action returns to the raiser
+  // - no bet (all checks): done when action returns to the first player of the street
   const bettingDone = active.every(p => p.bet === state.currentBet) &&
-    (active.length===0 || state.lastRaiser !== state.players[next]?.seatIndex);
+    (active.length === 0 ||
+     (state.lastRaiser !== -1
+       ? state.players[next]?.seatIndex === state.lastRaiser
+       : next === state.firstToActIdx));
 
   // Also done if everyone is all-in or only one active
   const allDone = active.length <= 1;
@@ -382,6 +389,7 @@ function nextPhase() {
   for (const p of state.players) { p.bet = 0; }
   state.currentBet = 0;
   state.lastRaiser = -1;
+  state.firstToActIdx = -1;
 
   if (state.phase === 'preflop') {
     state.community.push(state.deck.pop(), state.deck.pop(), state.deck.pop());
@@ -410,6 +418,7 @@ function nextPhase() {
       state.currentIdx = ni; break;
     }
   }
+  state.firstToActIdx = state.currentIdx;
   broadcastState(`[${state.phase.toUpperCase()}]`);
 }
 
