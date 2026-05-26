@@ -1,0 +1,159 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #1a472a;
+  color: #fff;
+  min-height: 100vh;
+}
+
+.hidden { display: none !important; }
+
+/* ── Lobby ── */
+#lobby {
+  display: flex; align-items: center; justify-content: center;
+  min-height: 100vh;
+}
+.lobby-box {
+  background: rgba(0,0,0,.55);
+  border-radius: 16px;
+  padding: 40px 48px;
+  width: 380px;
+  box-shadow: 0 8px 32px rgba(0,0,0,.5);
+}
+.lobby-box h1 { text-align: center; font-size: 2rem; margin-bottom: 4px; }
+.subtitle { text-align: center; color: #aaa; margin-bottom: 24px; font-size: .9rem; }
+.input-group { margin-bottom: 12px; }
+.input-group label { display: block; margin-bottom: 4px; font-size: .85rem; color: #ccc; }
+input[type=text], input[type=number] {
+  width: 100%; padding: 10px 12px; border-radius: 8px;
+  border: 1px solid #444; background: #222; color: #fff; font-size: 1rem;
+}
+input[type=text]:focus, input[type=number]:focus { outline: 2px solid #4caf50; }
+hr { border-color: #444; margin: 18px 0; }
+.status-msg { margin-top: 12px; font-size: .85rem; color: #ffd700; text-align: center; min-height: 1.2em; }
+
+/* ── Room screen ── */
+#roomScreen { display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+.room-box {
+  background: rgba(0,0,0,.55); border-radius: 16px; padding: 36px 48px;
+  width: 440px; box-shadow: 0 8px 32px rgba(0,0,0,.5);
+}
+.room-box h2 { text-align: center; margin-bottom: 16px; }
+.room-id-display {
+  background: #111; border-radius: 8px; padding: 12px;
+  font-size: 1.1rem; font-family: monospace; text-align: center;
+  letter-spacing: 2px; color: #ffd700; user-select: all; margin-bottom: 4px;
+  cursor: pointer;
+}
+.hint { font-size: .8rem; color: #aaa; text-align: center; margin-bottom: 20px; }
+.player-list { min-height: 80px; margin-bottom: 20px; }
+.player-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 12px; background: rgba(255,255,255,.08);
+  border-radius: 8px; margin-bottom: 6px; font-size: .95rem;
+}
+.player-item .badge { font-size: .7rem; background: #4caf50; border-radius: 4px; padding: 1px 6px; }
+
+/* ── Buttons ── */
+.btn {
+  display: block; width: 100%; padding: 12px; border-radius: 8px;
+  border: none; font-size: 1rem; cursor: pointer; font-weight: 600;
+  transition: opacity .15s;
+}
+.btn:hover { opacity: .85; }
+.btn:disabled { opacity: .4; cursor: not-allowed; }
+.btn-primary { background: #4caf50; color: #fff; margin-bottom: 8px; }
+.btn-secondary { background: #555; color: #fff; margin-bottom: 8px; }
+.btn-danger { background: #c0392b; color: #fff; margin-bottom: 8px; }
+
+/* ── Game Table ── */
+#gameScreen { display: flex; flex-direction: column; height: 100vh; }
+#gameTable {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: space-between;
+  padding: 16px; position: relative;
+}
+
+#opponents {
+  display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;
+  width: 100%;
+}
+.opponent-box {
+  background: rgba(0,0,0,.45); border-radius: 12px; padding: 10px 16px;
+  min-width: 140px; text-align: center;
+}
+.opponent-box.active { border: 2px solid #ffd700; }
+.opponent-box.folded { opacity: .4; }
+.opp-name { font-weight: 700; margin-bottom: 4px; }
+.opp-chips { font-size: .85rem; color: #aaa; }
+.opp-bet { font-size: .8rem; color: #ffd700; }
+.opp-cards { display: flex; gap: 4px; justify-content: center; margin-top: 6px; }
+
+#center { text-align: center; }
+.pot { font-size: 1.4rem; font-weight: 700; margin: 8px 0; color: #ffd700; }
+.phase { font-size: .9rem; color: #ccc; margin-bottom: 8px; }
+
+.card-area { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+
+.card {
+  width: 60px; height: 90px; border-radius: 8px;
+  background: #fff; color: #222; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; font-size: 1.4rem;
+  font-weight: 700; box-shadow: 0 2px 8px rgba(0,0,0,.4); position: relative;
+  line-height: 1;
+}
+.card.red { color: #c0392b; }
+.card.back {
+  background: linear-gradient(135deg, #1a237e, #283593);
+  color: transparent; font-size: 0;
+}
+.card.back::after { content: '🂠'; font-size: 2.2rem; color: rgba(255,255,255,.3); }
+.card .suit { font-size: .9rem; }
+
+#myArea {
+  width: 100%; display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.my-info { font-size: 1rem; color: #aaa; }
+.my-cards .card { width: 72px; height: 108px; font-size: 1.8rem; }
+
+.action-area {
+  display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+  align-items: center; width: 100%; max-width: 500px;
+}
+.action-area .btn { width: auto; padding: 10px 20px; margin: 0; }
+.raise-group { display: flex; gap: 6px; align-items: center; }
+.raise-group input { width: 90px; }
+.call-label { width: 100%; text-align: center; font-size: .85rem; color: #ccc; }
+.wait-msg { color: #aaa; font-size: .9rem; }
+
+/* ── Log ── */
+#gameLog {
+  height: 100px; overflow-y: auto; background: rgba(0,0,0,.4);
+  padding: 8px 16px; font-size: .8rem; color: #ccc;
+  border-top: 1px solid #333;
+}
+#gameLog p { margin: 2px 0; }
+
+/* ── Result ── */
+#resultOverlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,.75);
+  display: flex; align-items: center; justify-content: center; z-index: 100;
+}
+.result-box {
+  background: #1a1a2e; border-radius: 16px; padding: 40px 56px;
+  text-align: center; max-width: 480px; box-shadow: 0 8px 40px rgba(0,0,0,.7);
+}
+.result-box h2 { font-size: 1.8rem; margin-bottom: 16px; color: #ffd700; }
+#resultDetails { font-size: 1rem; color: #ccc; margin-bottom: 24px; line-height: 1.7; }
+.result-box .btn { max-width: 200px; margin: 0 auto; }
+
+/* Dealer / SB / BB badges */
+.badge-dealer { background: #f39c12; color: #000; border-radius: 50%; width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center; font-size: .7rem; font-weight: 700; }
+.badge-blind { background: #3498db; color: #fff; border-radius: 4px; padding: 0 4px; font-size: .7rem; }
+
+@media (max-width: 600px) {
+  .lobby-box, .room-box { width: 94vw; padding: 24px 20px; }
+  .card { width: 48px; height: 72px; font-size: 1.1rem; }
+  .my-cards .card { width: 58px; height: 88px; font-size: 1.4rem; }
+}
